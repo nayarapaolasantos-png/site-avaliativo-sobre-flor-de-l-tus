@@ -1,0 +1,117 @@
+// DATA MANAGEMENT - Objetos para renderização dinâmica
+const lotusData = [
+    { title: "Lótus Sagrada", desc: "A Nelumbo nucifera, símbolo de pureza nas religiões orientais." },
+    { title: "Lótus Azul", desc: "Conhecida pelo seu aroma e presença no Egito Antigo." },
+    { title: "Lótus Branca", desc: "Representa o estado de pureza mental e perfeição espiritual." }
+];
+
+const symbolismData = [
+    { title: "Renascimento", content: "Como a flor emerge do lodo todas as manhãs sem se sujar." },
+    { title: "Resiliência", content: "A capacidade de florescer em condições adversas." }
+];
+
+// INICIALIZAÇÃO
+document.addEventListener('DOMContentLoaded', () => {
+    renderCards();
+    renderAccordion();
+    handleScroll(); // Checar elementos visíveis no load
+});
+
+// RENDERIZAÇÃO DINÂMICA
+function renderCards() {
+    const grid = document.getElementById('lotus-grid');
+    grid.innerHTML = lotusData.map(item => `
+        <article class="card">
+            <h3>${item.title}</h3>
+            <p>${item.desc}</p>
+        </article>
+    `).join('');
+}
+
+function renderAccordion() {
+    const container = document.getElementById('faq-container');
+    container.innerHTML = symbolismData.map((item, index) => `
+        <div class="acc-item">
+            <button class="acc-header" onclick="toggleAccordion(this)" aria-expanded="false">
+                ${item.title} <span>+</span>
+            </button>
+            <div class="acc-content">
+                <p>${item.content}</p>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ACESSIBILIDADE: TAMANHO DA FONTE
+let currentFontSize = 16;
+function changeFontSize(delta) {
+    currentFontSize += delta * 2;
+    // Limites de segurança
+    if(currentFontSize < 12) currentFontSize = 12;
+    if(currentFontSize > 24) currentFontSize = 24;
+    document.documentElement.style.setProperty('--font-base', currentFontSize + 'px');
+}
+
+// ACESSIBILIDADE: ALTO CONTRASTE
+function toggleContrast() {
+    document.body.classList.toggle('high-contrast');
+}
+
+// COMPONENTE: ACORDEÃO
+function toggleAccordion(btn) {
+    const item = btn.parentElement;
+    const isOpen = item.classList.toggle('active');
+    btn.setAttribute('aria-expanded', isOpen);
+    btn.querySelector('span').innerText = isOpen ? '-' : '+';
+}
+
+// ANIMAÇÃO SCROLL REVEAL (Visão Sistêmica)
+function handleScroll() {
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const elementTop = el.getBoundingClientRect().top;
+        if (elementTop < windowHeight - 50) {
+            el.classList.add('active');
+        }
+    });
+}
+
+window.addEventListener('scroll', handleScroll);
+// 1. Expandindo a Galeria com Imagens e mais detalhes
+const lotusData = [
+    { 
+        title: "Lótus Sagrada (Nelumbo nucifera)", 
+        desc: "A espécie mais icônica. Suas pétalas rosadas simbolizam a pureza do corpo e da mente.",
+        img: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?q=80&w=500" 
+    },
+    { 
+        title: "Lótus Azul (Nymphaea caerulea)", 
+        desc: "Famosa no Egito Antigo, representa o conhecimento e a prosperidade.",
+        img: "https://images.unsplash.com/photo-1533651180995-3b8dcd33e834?q=80&w=500"
+    },
+    { 
+        title: "Lótus Branca", 
+        desc: "Simboliza o estado de pureza mental e a perfeição espiritual absoluta.",
+        img: "https://images.unsplash.com/photo-1469598614039-ccfeb0a21111?q=80&w=500"
+    }
+];
+
+// 2. Adicionando Curiosidades Técnicas no Acordeão
+const symbolismData = [
+    { title: "Efeito Lótus (Super-hidrofobia)", content: "As folhas de lótus são autolimpantes. Elas possuem uma estrutura microscópica que repele a água e sujeira, uma característica que inspira a nanotecnologia moderna." },
+    { title: "Longevidade das Sementes", content: "Sementes de lótus podem permanecer viáveis por mais de 1.300 anos, aguardando as condições ideais para germinar." },
+    { title: "Regulação Térmica", content: "A flor de lótus tem a capacidade rara de manter sua temperatura interna estável, variando entre 30°C e 35°C, mesmo que o ambiente externo esfrie." }
+];
+
+// ATUALIZE A FUNÇÃO renderCards no seu script.js para incluir a tag <img>:
+function renderCards() {
+    const grid = document.getElementById('lotus-grid');
+    grid.innerHTML = lotusData.map(item => `
+        <article class="card">
+            <img src="${item.img}" alt="${item.title}" style="width:100%; border-radius:var(--radius); margin-bottom:15px;">
+            <h3>${item.title}</h3>
+            <p>${item.desc}</p>
+        </article>
+    `).join('');
+}
